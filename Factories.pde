@@ -104,7 +104,7 @@ class ParticleFactory implements ListDraw {
       if (p.lifetime.isDone) {    // check if particle's lifetime is over
 
         type.remove(i);  // then cull particle
-        continue;        // continue to skip update
+        continue;        // continue to skip update method
       }
 
       p.update();        // update particle

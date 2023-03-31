@@ -1,5 +1,5 @@
 /* this .pde contains Actor and Component classes
-*/
+ */
 
 /// ACTOR /// blueprint for a game object
 
@@ -9,22 +9,23 @@ class Actor {
   float x, y, w, h;
   float edgeL, edgeR, edgeT, edgeB;
   float halfW, halfH;
-  
+
   // actor fields
   String name = "actor";
   boolean isDead = false;
   boolean hitboxVisible = true;
-  
+
   // component fields
   HashMap<String, Component> components = new HashMap();
-  
-  Actor(){} // All child classes of Actor must call setSize() in constructor
-  
-  void update(){
-  
+
+  Actor() {
+  } // All child classes of Actor must call setSize() in constructor
+
+  void update() {
+
     calculateAABB();
   }
-  
+
   void draw() {
     //drawComponents();
 
@@ -132,6 +133,30 @@ class Actor {
     return result;
   }
   
+  void updateComponents() {
+    for (HashMap.Entry<String, Component> entry : components.entrySet()) entry.getValue().update();
+  }
+
+  void drawComponents() {
+    for (HashMap.Entry<String, Component> entry : components.entrySet()) entry.getValue().draw();
+  }
+
+  // A method to add components to actor
+  Actor addComponent(Component c) {
+
+    components.put(name, c);
+
+    return this; // Actor return type allows for chaining addComponent() calls
+  }
+
+  // If using this method, always check for possibility of NULL
+  Component getComponent(String name) {
+
+    if (components.containsKey(name)) return components.get(name);
+
+    println(this.name + " could not find component '" + name + "'.");
+    return null;
+  }
 }
 
 /// COMPONENT ///  modular functionality for actors
@@ -142,8 +167,8 @@ abstract class Component {
   String name = "";
   Actor parent;
   boolean visible = false;
-  
+
   abstract void update();
-  
+
   abstract void draw();
 }

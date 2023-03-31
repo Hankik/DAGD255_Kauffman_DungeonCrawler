@@ -4,7 +4,7 @@ class Level {
   int id;
   ActorFactory actorFactory = new ActorFactory();
   Player player;
-  View view;
+  View view = new View();
 
   Level(int id) {
 
@@ -23,6 +23,11 @@ class Level {
   
   void draw(){
   
-    actorFactory.draw();
+    actorFactory.draw(); // separating draw from update allows game to be paused without disappearing
+  }
+  
+  void keyPressed(){
+  
+    player.keyPressed();
   }
 }

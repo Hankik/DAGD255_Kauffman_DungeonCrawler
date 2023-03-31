@@ -5,8 +5,14 @@ class Combat extends Component {
 ///
   
   // fields
+  Actor parent;
   
-  Combat(){}
+  Combat(Actor parent){
+  
+    name = "combat";
+    
+    this.parent = parent;
+  }
   
   void update(){}
   

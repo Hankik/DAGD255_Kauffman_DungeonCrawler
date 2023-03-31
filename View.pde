@@ -1,1 +1,6 @@
-class View {}
+class View {
+
+  // fields
+  
+  View(){}
+}

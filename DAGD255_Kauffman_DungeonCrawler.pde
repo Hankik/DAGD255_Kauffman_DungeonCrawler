@@ -1,12 +1,25 @@
 /*
-
  Hank Kauffman
  3/27/23
  DAGD 255
  
- */
+a dungeon crawling game
+*/
+import java.util.ArrayList;
+import java.util.HashMap;
+
+//
+// declare global fields
+//
+final int LEVEL_AMOUNT = 1;
+int currentLevel = 0;
+Level[] levels = new Level[LEVEL_AMOUNT];
+
+float dt, prevTime = 0;
+
+boolean isPaused = false;
  
- // Color constants
+// color constants
 final color RED = #bf616a;
 final color ORANGE = #d08770;
 final color YELLOW = #ebcb8b;
@@ -23,11 +36,31 @@ final color LIGHTRED = #FF8C8C;
 
 void setup(){
 
-  size(600, 600);
+  size(600, 600, P2D);
+  
+  for (int i = 0; i < LEVEL_AMOUNT; i++){
+  
+    levels[i] = new Level(i);
+  }
+  
   
 }
 
 void draw(){
+  calcDeltaTime();
   background(BLACK);
   
+  if (!isPaused) levels[currentLevel].update();
+  
+  levels[currentLevel].draw();
+  
+  Keyboard.update();
+}
+
+// A method to get delta time
+void calcDeltaTime() {
+
+  float currTime = millis();
+  dt = (currTime - prevTime) / 1000;
+  prevTime = currTime;
 }

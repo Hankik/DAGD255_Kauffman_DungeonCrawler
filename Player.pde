@@ -9,15 +9,15 @@ class Player extends Actor implements Damaging {
     name = "player";
 
     this
-      .addComponent(combat) // addComponent makes sure given component is drawn and updated
-      .addComponent(movement);
+      .addComponent(combat) 
+      .addComponent(movement); // addComponent makes sure given component is drawn and updated
 
     this.x = x;
     this.y = y;
     setSize(w, h);
     
-    combat.setBaseStats(30, 30);
-    combat.refillHealth();
+    combat.setBaseStats(30, 30);    // sets base stats for health and damage respectfully
+    combat.refillHealth();          // health starts at zero, so we refill
   }
 
   void update() {

@@ -18,7 +18,7 @@ class NPC extends Actor {
   }
   
   void update(){
-  
+    
     super.update();
   }
   

@@ -15,19 +15,26 @@ class Level {
       break;
     }
   }
-  
-  void update(){
-  
+
+  void update() {
+
     actorFactory.update();
   }
-  
-  void draw(){
-  
+
+  void draw() {
+
     actorFactory.draw(); // separating draw from update allows game to be paused without disappearing
   }
-  
-  void keyPressed(){
-  
+
+  void keyPressed() {
+
     player.keyPressed();
+    if (Keyboard.isDown(Keyboard.SPACE)) {
+      if (!player.combat.healthDepleted) {
+        player.combat.takeDamage(10);
+      } else {
+        player.combat.refillHealth();
+      }
+    }
   }
 }

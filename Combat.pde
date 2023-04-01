@@ -58,7 +58,7 @@ class Combat extends Component {
 
   void takeDamage(float damageTaken) {
 
-    health -= damageTaken;
+    if (!healthDepleted) health -= damageTaken;
     if (health <= 0) {
       healthDepleted = true;
       parent.die();

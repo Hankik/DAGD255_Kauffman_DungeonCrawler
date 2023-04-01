@@ -9,36 +9,29 @@ class Player extends Actor implements Damaging {
     name = "player";
 
     this
-      .addComponent(movement)
-      .addComponent(combat); // addComponent makes sure given component is drawn and updated
+      .addComponent(combat) // addComponent makes sure given component is drawn and updated
+      .addComponent(movement);
 
     this.x = x;
     this.y = y;
     setSize(w, h);
+    
+    combat.setBaseStats(30, 30);
+    combat.refillHealth();
   }
 
   void update() {
-    handleInputs();
+    
+    movement.move(Keyboard.isDown(Keyboard.LEFT), 
+                  Keyboard.isDown(Keyboard.RIGHT), 
+                  Keyboard.isDown(Keyboard.UP), 
+                  Keyboard.isDown(Keyboard.DOWN));
 
     super.update();
   }
 
   void draw() {
     super.draw();
-  }
-
-  void handleInputs() {
-
-
-    PVector axesValues = new PVector();
-
-    if (Keyboard.isDown(Keyboard.UP)) axesValues.y--;
-    if (Keyboard.isDown(Keyboard.DOWN)) axesValues.y++;
-    if (Keyboard.isDown(Keyboard.LEFT)) axesValues.x--;
-    if (Keyboard.isDown(Keyboard.RIGHT)) axesValues.x++;
-    axesValues.normalize();
-    
-    movement.move(axesValues.x, axesValues.y); // change this function (i dont like it)
   }
 
   void keyPressed() {

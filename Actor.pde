@@ -23,11 +23,13 @@ class Actor {
 
   void update() {
 
+    updateComponents();
+    
     calculateAABB();
   }
 
   void draw() {
-    //drawComponents();
+    drawComponents();
 
     if (hitboxVisible) {
 
@@ -48,6 +50,8 @@ class Actor {
       noStroke();
     }
   }
+  
+  void die(){}
 
   void setSize(float w, float h) {
     this.w = w;
@@ -144,8 +148,9 @@ class Actor {
   // A method to add components to actor
   Actor addComponent(Component c) {
 
-    components.put(name, c);
+    components.put(c.name, c);
 
+    println(name + " added component '" + c.name + "' successfully");
     return this; // Actor return type allows for chaining addComponent() calls
   }
 

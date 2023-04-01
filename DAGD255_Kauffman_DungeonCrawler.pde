@@ -64,7 +64,7 @@ void draw() {
 void keyPressed() {
 
   Keyboard.handleKeyDown(keyCode);
-  if (Keyboard.isDown(Keyboard.P)) isPaused = !isPaused;
+  if (key == 'p') isPaused = !isPaused; // pause game if 'P' pressed
   if (!isPaused) levels[currentLevel].keyPressed();
 }
 

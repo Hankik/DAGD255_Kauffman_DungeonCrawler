@@ -5,13 +5,15 @@ class Level {
   ActorFactory actorFactory = new ActorFactory();
   Player player;
   View view = new View();
+  Map map = new Map(32, 32);
 
   Level(int id) {
 
     switch(id) {
 
     case 0:
-      player = (Player) actorFactory.create("player", width/2, height/2, 30, 30);
+      player = (Player) actorFactory.create("player", width/2, height/2, 32, 32);
+      actorFactory.create("npc", width*.25, height*.25, 32, 32);
       break;
     }
   }
@@ -23,6 +25,7 @@ class Level {
 
   void draw() {
 
+    map.draw();
     actorFactory.draw(); // separating draw from update allows game to be paused without disappearing
   }
 

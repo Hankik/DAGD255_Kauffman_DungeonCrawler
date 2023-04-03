@@ -19,6 +19,10 @@ float dt, prevTime, elapsed = 0;
 
 boolean isPaused = false;
 
+// PImage sprites
+PImage imgActor;
+PImage imgCube;
+
 // color constants
 final color RED = #bf616a;
 final color ORANGE = #d08770;
@@ -36,12 +40,19 @@ final color LIGHTRED = #FF8C8C;
 
 void setup() {
 
-  size(600, 600, P2D);
+  size(640, 640, P2D);
 
   for (int i = 0; i < LEVEL_AMOUNT; i++) {
 
     levels[i] = new Level(i);
   }
+  
+  // load images
+  imgActor = loadImage("actor.png");
+  imgActor.resize(30,30);
+  imgCube = loadImage("cube.png");
+  
+  println("Sprites loaded successfully");
 }
 
 void draw() {

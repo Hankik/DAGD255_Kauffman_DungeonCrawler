@@ -3,6 +3,8 @@ class Player extends Actor implements Damaging {
   // fields
   Movement movement = new Movement(this);
   Combat combat = new Combat(this);
+  HashMap<String, Integer> inventory = new HashMap<String, Integer>(); 
+  
 
   Player(float x, float y, float w, float h) {
 

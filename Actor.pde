@@ -24,20 +24,22 @@ class Actor {
   void update() {
 
     updateComponents();
-    
+
     calculateAABB();
   }
 
   void draw() {
     drawComponents();
 
+
+    pushMatrix();
+    image(imgActor, x - w*.5, y - h*.5);
     if (hitboxVisible) {
 
       fill(WHITE);
       stroke(RED);
       strokeWeight(2);
 
-      pushMatrix();
       //rect(x - w/2, y - h/2, w, h);
       line(edgeL, edgeT, edgeR, edgeT);
       line(edgeR, edgeT, edgeR, edgeB);
@@ -45,13 +47,15 @@ class Actor {
       line(edgeL, edgeB, edgeL, edgeT);
       textAlign(CENTER);
       text("xPos: " + (int)x + " | yPos: " + (int)y, x, y + h*.75);
-      popMatrix();
 
       noStroke();
     }
+
+    popMatrix();
   }
-  
-  void die(){}
+
+  void die() {
+  }
 
   void setSize(float w, float h) {
     this.w = w;
@@ -136,7 +140,7 @@ class Actor {
 
     return result;
   }
-  
+
   void updateComponents() {
     for (HashMap.Entry<String, Component> entry : components.entrySet()) entry.getValue().update();
   }

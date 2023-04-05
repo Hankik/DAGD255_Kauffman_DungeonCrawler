@@ -14,4 +14,6 @@ class Item extends Actor implements Interacting {
   void update(){}
   
   void draw(){}
+  
+  void interact(Actor invoker){}
 }

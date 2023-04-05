@@ -1,4 +1,6 @@
 interface Interacting {
+  
+  abstract void interact(Actor invoker);
 }
 
 interface Damaging {

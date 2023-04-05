@@ -1,7 +1,7 @@
 class Dialogue extends Component {
 
   // fields
-  Timer displayTime = new Timer(2);
+  Timer displayTimer = new Timer(2);
   String[] lines;
   int currentLine = 0;
 
@@ -12,22 +12,27 @@ class Dialogue extends Component {
     this.parent = parent;
     
     lines = loadText(fileName);
-    displayTime.isDone = true;
+    currentLine = lines.length - 1;
+    displayTimer.isDone = true;
   }
 
   void update() {
-    displayTime.update();
+    displayTimer.update();
   }
 
   void draw() {
     
-    if (!displayTime.isDone) {
+    if (!displayTimer.isDone) {
 
       pushMatrix();
-      fill(BLACK);
-      text(lines[currentLine], parent.x, parent.y - parent.h*.75);
+      fill(WHITE);
+      text(lines[currentLine], parent.x, parent.y - parent.h*.85);
       popMatrix();
     }
+  }
+  
+  void speak(){
+    displayTimer.reset();
   }
   
     String nextLine(){

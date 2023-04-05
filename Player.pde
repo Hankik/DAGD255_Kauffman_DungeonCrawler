@@ -3,7 +3,7 @@ class Player extends Actor implements Damaging {
   // fields
   Movement movement = new Movement(this);
   Combat combat = new Combat(this);
-  HashMap<String, Integer> inventory = new HashMap<String, Integer>(); 
+  
   
   // animations
   Animation walk = new Animation(this, roboWalk);  

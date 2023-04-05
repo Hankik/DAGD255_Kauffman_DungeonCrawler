@@ -1,7 +1,6 @@
 class Map {
 
   // fields
-  int[] row = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
   int[][] tiles = new int[20][20];
   int rowAmount = tiles.length;
   int colAmount = tiles[0].length;
@@ -34,7 +33,7 @@ class Map {
 
         case 0:
           
-          rect(currentCol*cellWidth, currentRow*cellHeight, cellWidth, cellHeight);
+          //rect(currentCol*cellWidth, currentRow*cellHeight, cellWidth, cellHeight);
           break;
         }
       }

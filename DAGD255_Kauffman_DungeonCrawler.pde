@@ -20,8 +20,11 @@ float dt, prevTime, elapsed = 0;
 boolean isPaused = false;
 
 // PImage sprites
+String[] nameRoboWalk = {"robot/walk0.png", "robot/walk1.png", "robot/walk2.png", "robot/walk3.png",
+                     "robot/walk4.png", "robot/walk5.png", "robot/walk6.png", "robot/walk7.png"};
+PImage[] roboWalk = new PImage[nameRoboWalk.length];
 PImage imgActor;
-PImage imgCube;
+
 
 // color constants
 final color RED = #bf616a;
@@ -42,17 +45,20 @@ void setup() {
 
   size(640, 640, P2D);
 
+  // load images
+  imgActor = loadImage("actor.png");
+  imgActor.resize(30, 30);
+  for (int i = 0; i < roboWalk.length; i++){
+    roboWalk[i] = loadImage(nameRoboWalk[i]);
+    roboWalk[i].resize(32, 40);
+  }
+
+  println("Sprites loaded successfully");
+
   for (int i = 0; i < LEVEL_AMOUNT; i++) {
 
     levels[i] = new Level(i);
   }
-  
-  // load images
-  imgActor = loadImage("actor.png");
-  imgActor.resize(30,30);
-  imgCube = loadImage("cube.png");
-  
-  println("Sprites loaded successfully");
 }
 
 void draw() {
@@ -65,9 +71,11 @@ void draw() {
     levels[currentLevel].update();
   }
 
-  text(elapsed, width/16, height/16);
 
   levels[currentLevel].draw();
+  
+  
+  text(elapsed, width/16, height/16);
 
   Keyboard.update();
 }
@@ -93,5 +101,5 @@ void calcDeltaTime() {
 }
 
 float clamp(float val, float min, float max) {
-    return Math.max(min, Math.min(max, val));
+  return Math.max(min, Math.min(max, val));
 }

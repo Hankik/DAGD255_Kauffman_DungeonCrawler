@@ -3,6 +3,7 @@ class NPC extends Actor {
   // fields
   Movement movement = new Movement(this);
   Combat combat = new Combat(this);
+  Animation walk = new Animation(this, roboWalk);
   
   NPC(float x, float y, float w, float h){
     
@@ -10,7 +11,10 @@ class NPC extends Actor {
     
     this
       .addComponent(movement)
-      .addComponent(combat);
+      .addComponent(combat)
+      .addComponent(walk);
+    
+    walk.yOffset = -10;
   
     this.x = x;
     this.y = y;
@@ -23,7 +27,7 @@ class NPC extends Actor {
   }
   
   void draw(){
-  
+    
     super.draw();
   }
 }

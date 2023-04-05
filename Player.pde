@@ -5,6 +5,8 @@ class Player extends Actor implements Damaging {
   Combat combat = new Combat(this);
   HashMap<String, Integer> inventory = new HashMap<String, Integer>(); 
   
+  // animations
+  Animation walk = new Animation(this, roboWalk);  
 
   Player(float x, float y, float w, float h) {
 
@@ -12,7 +14,10 @@ class Player extends Actor implements Damaging {
 
     this
       .addComponent(combat) 
-      .addComponent(movement); // addComponent makes sure given component is drawn and updated
+      .addComponent(movement)
+      .addComponent(walk); // addComponent makes sure given component is drawn and updated
+    
+    walk.yOffset = -10; // for repositioning scuffed frames
 
     this.x = x;
     this.y = y;

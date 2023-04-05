@@ -18,6 +18,8 @@ class Actor {
   // component fields
   HashMap<String, Component> components = new HashMap();
 
+
+
   Actor() {
   } // All child classes of Actor must call setSize() in constructor
 
@@ -33,7 +35,7 @@ class Actor {
 
 
     pushMatrix();
-    image(imgActor, x - w*.5, y - h*.5);
+
     if (hitboxVisible) {
 
       fill(WHITE);

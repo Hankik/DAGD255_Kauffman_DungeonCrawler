@@ -5,7 +5,6 @@ class Combat extends Component {
   ///
 
   // fields
-  Actor parent;
   float health = 0;
   float damage = 0;
   float maxHealth = 20;

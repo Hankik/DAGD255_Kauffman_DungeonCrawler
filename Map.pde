@@ -35,12 +35,11 @@ class Map {
         case 0:
           
           rect(currentCol*cellWidth, currentRow*cellHeight, cellWidth, cellHeight);
-          //image(imgCube, currentCol*cellWidth, currentRow*cellHeight);
-          //image(imgCube, currentCol*cellWidth - cellWidth*.5, currentRow*cellHeight - cellHeight*.5);
           break;
         }
       }
     }
+    noStroke();
     
     fill(BLACK);
   }

@@ -55,4 +55,9 @@ class Level {
       
     }
   }
+  
+  void mousePressed(){
+  
+    player.mousePressed();
+  }
 }

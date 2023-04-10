@@ -3,19 +3,19 @@ class Player extends Actor implements Damaging {
   // fields
   Movement movement = new Movement(this);
   Combat combat = new Combat(this);
-  
-  
-  // animations
+  Hook hook = new Hook(this);
   Animation walk = new Animation(this, roboWalk);  
 
   Player(float x, float y, float w, float h) {
 
     name = "player";
 
+    // addComponent() makes sure given component is drawn and updated
     this
       .addComponent(combat) 
       .addComponent(movement)
-      .addComponent(walk); // addComponent makes sure given component is drawn and updated
+      .addComponent(walk)
+      .addComponent(hook);
     
     walk.yOffset = -10; // for repositioning scuffed frames
 
@@ -33,6 +33,9 @@ class Player extends Actor implements Damaging {
                   Keyboard.isDown(Keyboard.RIGHT), 
                   Keyboard.isDown(Keyboard.UP), 
                   Keyboard.isDown(Keyboard.DOWN));
+                  
+    if (movement.direction.x < 0) walk.flipped = true;
+    if (movement.direction.x > 0) walk.flipped = false;
 
     super.update();
   }
@@ -42,5 +45,10 @@ class Player extends Actor implements Damaging {
   }
 
   void keyPressed() {
+  }
+  
+  void mousePressed(){
+  
+    hook.mousePressed();
   }
 }

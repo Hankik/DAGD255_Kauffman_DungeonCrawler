@@ -3,6 +3,7 @@ class Animation extends Component {
   // fields
   Timer nextFrameDelay = new Timer(.025);
   PImage[] frames;
+  boolean flipped = false;
   int currentFrame = 0;
   float xOffset = 0;
   float yOffset = 0;
@@ -22,12 +23,19 @@ class Animation extends Component {
   
   void draw(){
     
-    image(frames[currentFrame], parent.x -parent.w*.5 + xOffset, parent.y - parent.h*.5 + yOffset);
+    pushMatrix();
+    translate(parent.x, parent.y); // makes draws relative to parent
+    
+    if (flipped) scale(-1, 1);
+    
+    image(frames[currentFrame], -parent.w*.5 + xOffset, - parent.h*.5 + yOffset);
     if (nextFrameDelay.isDone) {
       nextFrameDelay.reset();
       currentFrame++;
     }
     if (currentFrame > frames.length - 1) currentFrame = 0; 
+    
+    popMatrix();
   }
 }
 

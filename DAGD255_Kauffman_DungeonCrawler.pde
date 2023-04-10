@@ -23,7 +23,7 @@ boolean isPaused = false;
 String[] nameRoboWalk = {"robot/walk0.png", "robot/walk1.png", "robot/walk2.png", "robot/walk3.png",
                      "robot/walk4.png", "robot/walk5.png", "robot/walk6.png", "robot/walk7.png"};
 PImage[] roboWalk = new PImage[nameRoboWalk.length];
-PImage imgActor;
+PImage imgActor, hookOpen, hookClosed;
 
 
 // color constants
@@ -40,12 +40,17 @@ final color LIGHTGREEN = #d9e68f;
 final color PINK = #db96ad;
 final color LIGHTBLUE = #92cade;
 final color LIGHTRED = #FF8C8C;
+final color HOOK = #5393c5;
 
 void setup() {
 
   size(640, 640, P2D);
 
   // load images
+  hookOpen = loadImage("hookOpen.png");
+  hookOpen.resize(16,16);
+  hookClosed = loadImage("hookClosed.png");
+  hookClosed.resize(16,16);
   imgActor = loadImage("actor.png");
   imgActor.resize(30, 30);
   for (int i = 0; i < roboWalk.length; i++){
@@ -85,6 +90,11 @@ void keyPressed() {
   Keyboard.handleKeyDown(keyCode);
   if (key == 'p') isPaused = !isPaused; // pause game if 'P' pressed
   if (!isPaused) levels[currentLevel].keyPressed();
+}
+
+void mousePressed(){
+
+  if (!isPaused) levels[currentLevel].mousePressed();
 }
 
 void keyReleased() {

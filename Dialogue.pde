@@ -26,7 +26,7 @@ class Dialogue extends Component {
 
       pushMatrix();
       fill(WHITE);
-      text(lines[currentLine], parent.x, parent.y - parent.h*.85);
+      text(lines[currentLine], parent.x - parent.w*.5, parent.y - parent.h*.85);
       popMatrix();
     }
   }

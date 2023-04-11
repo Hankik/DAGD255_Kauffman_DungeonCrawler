@@ -8,6 +8,8 @@ class Timer extends Component {
   boolean isPaused = false;
 
   Timer(float duration) {
+    
+    name = "timer";
 
     this.duration = duration;
     this.timeLeft = duration;

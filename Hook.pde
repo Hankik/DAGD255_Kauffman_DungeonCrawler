@@ -3,7 +3,6 @@ class Hook extends Component {
   // fields
   Actor target = null;
   HookState state = HookState.IDLING;
-  MouseActor mouse = new MouseActor();
   Timer hookTime = new Timer(2);
   PVector hookLocation = new PVector();
   int dotAmount = 8;
@@ -59,8 +58,8 @@ class Hook extends Component {
           target = a;
           return;
         }
-        for (Actor a : levels[currentLevel].getActors("player")) if (a.checkCollision(mouse)){
-          target = a;
+         if (levels[currentLevel].flower.checkCollision(mouse)){
+          target = levels[currentLevel].flower;
           return;
         }
       }
@@ -135,24 +134,4 @@ public enum HookState {
     PULLING,
     EATING,
     IDLING
-}
-
-// allows easily assigning mouse as target for hook
-class MouseActor extends Actor {
-
-  MouseActor() {
-
-    name = "mouseActor";
-    x = 10000; // without changing x and y in constructor,
-    y = 10000; // frame one had player and mouse at same location somehow
-
-    setSize(24,24);
-  }
-
-  void update() {
-    super.update();
-
-    x = mouseX;
-    y = mouseY;
-  }
 }

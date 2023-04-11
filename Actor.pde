@@ -18,13 +18,17 @@ class Actor {
   // component fields
   HashMap<String, Component> components = new HashMap();
 
+  // draw fields
+  color fill = WHITE;
+  color stroke = RED;
+
 
 
   Actor() {
   } // All child classes of Actor must call setSize() in constructor
 
   void update() {
-    
+
     //mouse.update();
 
     //if (checkCollision(mouse)) hitboxVisible = true;
@@ -42,8 +46,8 @@ class Actor {
 
     if (hitboxVisible) {
 
-      fill(WHITE);
-      stroke(RED);
+      fill(fill);
+      stroke(stroke);
       strokeWeight(2);
 
       //rect(x - w/2, y - h/2, w, h);
@@ -52,7 +56,7 @@ class Actor {
       line(edgeR, edgeB, edgeL, edgeB);
       line(edgeL, edgeB, edgeL, edgeT);
       textAlign(CENTER);
-      text("xPos: " + (int)x + " | yPos: " + (int)y, x, y + h*.75);
+      //text("xPos: " + (int)x + " | yPos: " + (int)y, x, y + h*.75);
 
       noStroke();
     }
@@ -189,4 +193,24 @@ abstract class Component {
   abstract void update();
 
   abstract void draw();
+}
+
+// allows easily assigning mouse as target for hook
+class MouseActor extends Actor {
+
+  MouseActor() {
+
+    name = "mouseActor";
+    x = 1000; // without changing x and y in constructor,
+    y = 1000; // frame one had player and mouse at same location somehow
+
+    setSize(24, 24);
+  }
+
+  void update() {
+    super.update();
+
+    x = mouseX;
+    y = mouseY;
+  }
 }

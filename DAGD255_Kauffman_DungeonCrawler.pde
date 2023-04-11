@@ -19,12 +19,18 @@ float dt, prevTime, elapsed = 0;
 
 boolean isPaused = false;
 
+MouseActor mouse;
+
 // PImage sprites
 String[] nameRoboWalk = {"robot/walk0.png", "robot/walk1.png", "robot/walk2.png", "robot/walk3.png",
                      "robot/walk4.png", "robot/walk5.png", "robot/walk6.png", "robot/walk7.png"};
+String[] nameZombieWalk = {"zombie/walk0.png", "zombie/walk1.png", "zombie/walk2.png", "zombie/walk3.png",
+                           "zombie/walk4.png", "zombie/walk5.png", "zombie/walk6.png", "zombie/walk7.png"};
+PImage[] zombieWalk = new PImage[nameZombieWalk.length];
+PImage[] zombieIdles = new PImage[2];
 PImage[] roboWalk = new PImage[nameRoboWalk.length];
 PImage[] roboIdles = new PImage[2];
-PImage imgActor, hookOpen, hookClosed, roboIdle;
+PImage imgActor, hookOpen, hookClosed, roboIdle, zombieIdle, imgFlower;
 
 
 // color constants
@@ -48,6 +54,8 @@ void setup() {
   size(640, 640, P2D);
 
   // load images
+  imgFlower = loadImage("flower.png");
+  imgFlower.resize(32,32);
   hookOpen = loadImage("hookOpen.png");
   hookOpen.resize(16,16);
   hookClosed = loadImage("hookClosed.png");
@@ -56,13 +64,22 @@ void setup() {
   imgActor.resize(30, 30);
   roboIdle = loadImage("robot/idle.png");
   roboIdle.resize(32, 40);
+  zombieIdle = loadImage("zombie/idle.png");
+  zombieIdle.resize(32, 40);
+  for (int i = 0; i < zombieWalk.length; i++){
+    zombieWalk[i] = loadImage(nameZombieWalk[i]);
+    zombieWalk[i].resize(32, 40);
+  }
   for (int i = 0; i < roboIdles.length; i++) roboIdles[i] = roboIdle;
+  for (int i = 0; i < zombieIdles.length; i++) zombieIdles[i] = zombieIdle;
   for (int i = 0; i < roboWalk.length; i++){
     roboWalk[i] = loadImage(nameRoboWalk[i]);
     roboWalk[i].resize(32, 40);
   }
 
   println("Sprites loaded successfully");
+  
+  mouse = new MouseActor();
 
   for (int i = 0; i < LEVEL_AMOUNT; i++) {
 

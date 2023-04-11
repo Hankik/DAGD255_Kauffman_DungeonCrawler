@@ -5,6 +5,7 @@ class Movement extends Component {
   float maxVelocity = 20;
   float speed = 200;
   boolean accelerates = false;
+  boolean isMoving = false;
   PVector velocity = new PVector(1, 1);
   PVector direction = new PVector();
 
@@ -31,7 +32,7 @@ class Movement extends Component {
 
   void move(boolean moveLeft, boolean moveRight, boolean moveUp, boolean moveDown) {
 
-    boolean isMoving = moveLeft||moveRight||moveUp||moveDown;
+    isMoving = moveLeft||moveRight||moveUp||moveDown;
 
     if (accelerates && !isMoving) {
       //velocity.x = lerp( velocity.x, 0, 1 - stopDelay.timeLeft / stopDelay.duration );

@@ -23,7 +23,8 @@ boolean isPaused = false;
 String[] nameRoboWalk = {"robot/walk0.png", "robot/walk1.png", "robot/walk2.png", "robot/walk3.png",
                      "robot/walk4.png", "robot/walk5.png", "robot/walk6.png", "robot/walk7.png"};
 PImage[] roboWalk = new PImage[nameRoboWalk.length];
-PImage imgActor, hookOpen, hookClosed;
+PImage[] roboIdles = new PImage[2];
+PImage imgActor, hookOpen, hookClosed, roboIdle;
 
 
 // color constants
@@ -53,6 +54,9 @@ void setup() {
   hookClosed.resize(16,16);
   imgActor = loadImage("actor.png");
   imgActor.resize(30, 30);
+  roboIdle = loadImage("robot/idle.png");
+  roboIdle.resize(32, 40);
+  for (int i = 0; i < roboIdles.length; i++) roboIdles[i] = roboIdle;
   for (int i = 0; i < roboWalk.length; i++){
     roboWalk[i] = loadImage(nameRoboWalk[i]);
     roboWalk[i].resize(32, 40);
@@ -79,7 +83,7 @@ void draw() {
 
   levels[currentLevel].draw();
   
-  
+  fill(WHITE);
   text(elapsed, width/16, height/16);
 
   Keyboard.update();

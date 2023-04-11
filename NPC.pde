@@ -5,6 +5,7 @@ class NPC extends Actor implements Interacting {
   Combat combat = new Combat(this);
   Animation walk = new Animation(this, roboWalk);
   Dialogue lines = new Dialogue(this, "test.txt");
+  Hook hook = new Hook(this);
   
   NPC(float x, float y, float w, float h){
     
@@ -13,7 +14,8 @@ class NPC extends Actor implements Interacting {
     this
       .addComponent(movement)
       .addComponent(combat)
-      .addComponent(walk);
+      .addComponent(walk)
+      .addComponent(hook);
     
     walk.yOffset = -10;
   
@@ -32,11 +34,19 @@ class NPC extends Actor implements Interacting {
     lines.draw();
     
     super.draw();
+    
+    stroke(WHITE);
+    noStroke();
   }
   
   void interact(Actor invoker) {
   
     lines.speak();
     lines.nextLine();
+  }
+  
+  void mousePressed(){
+  
+    hook.mousePressed();
   }
 }

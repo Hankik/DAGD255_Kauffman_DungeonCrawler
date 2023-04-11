@@ -4,8 +4,9 @@ class Hook extends Component {
   Actor target = null;
   HookState state = HookState.IDLING;
   MouseActor mouse = new MouseActor();
+  Timer hookTime = new Timer(2);
   PVector hookLocation = new PVector();
-  int dotAmount = 5;
+  int dotAmount = 8;
   int dotSize = 5;
 
   Hook(Actor parent) {
@@ -20,14 +21,20 @@ class Hook extends Component {
 
     if (!state.equals(HookState.PULLING)) mouse.update();
     handleState(state);
-    println(state);
   }
 
   void draw() {
-
+    
+    PVector direction = new PVector(target.x - parent.x, target.y - parent.y);
+    float rotation = atan2(direction.x, direction.y);
+    PImage img = hookClosed;
+    
+    if (state.equals(HookState.SEARCHING)) img = hookOpen;
+    
     pushMatrix();
     translate(target.x, target.y);
-    image(hookClosed, 0 - hookClosed.width*.5, 0 - hookClosed.height*.5);
+    rotate(-rotation - 0.785398);
+    image(img, 0 - hookClosed.width*.5, 0 - hookClosed.height*.5);
 
     popMatrix();
 
@@ -44,14 +51,25 @@ class Hook extends Component {
     case SEARCHING:
 
       if (!mousePressed) {
-        println("switch state");
+        hookTime.reset();
         this.state = HookState.PULLING;
+        
+        // check if hook is overlapping something hookable
+        for (Actor a : levels[currentLevel].getActors("npc")) if (a.checkCollision(mouse)) {
+          target = a;
+          return;
+        }
+        for (Actor a : levels[currentLevel].getActors("player")) if (a.checkCollision(mouse)){
+          target = a;
+          return;
+        }
       }
 
       break;
     case PULLING:
 
       // move target/player to desired location
+      hookTime.update();
       pullTarget(target);
       break;
 
@@ -68,9 +86,19 @@ class Hook extends Component {
   }
   
   void pullTarget(Actor target){
+    
+    float percentPull = hookTime.timeLeft / hookTime.duration;
   
-    target.x = lerp(target.x, parent.x, .1);
-    target.y = lerp(target.y, parent.y, .1);
+    target.x = lerp(target.x, parent.x, 1 - percentPull);
+    target.y = lerp(target.y, parent.y, 1 - percentPull);
+    
+    if (dist(target.x, target.y, parent.x, parent.y) < 24) {
+    
+      this.target = parent;
+      // handle what to do with type of target
+      
+      state = HookState.IDLING;
+    }
     
   }
 
@@ -93,7 +121,7 @@ class Hook extends Component {
   void mousePressed() {
 
 
-    if (parent.checkCollision(mouse)) {
+    if (parent.checkCollision(mouse) && state.equals(HookState.IDLING)) {
       
       state = HookState.SEARCHING;
       target = mouse;
@@ -118,7 +146,7 @@ class MouseActor extends Actor {
     x = 10000; // without changing x and y in constructor,
     y = 10000; // frame one had player and mouse at same location somehow
 
-    setSize(1, 1);
+    setSize(24,24);
   }
 
   void update() {

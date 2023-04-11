@@ -13,7 +13,7 @@ class Actor {
   // actor fields
   String name = "actor";
   boolean isDead = false;
-  boolean hitboxVisible = true;
+  boolean hitboxVisible = false;
 
   // component fields
   HashMap<String, Component> components = new HashMap();
@@ -24,6 +24,11 @@ class Actor {
   } // All child classes of Actor must call setSize() in constructor
 
   void update() {
+    
+    //mouse.update();
+
+    //if (checkCollision(mouse)) hitboxVisible = true;
+    //else hitboxVisible = false;
 
     updateComponents();
 
@@ -32,7 +37,6 @@ class Actor {
 
   void draw() {
     drawComponents();
-
 
     pushMatrix();
 
@@ -167,6 +171,9 @@ class Actor {
 
     println(this.name + " could not find component '" + name + "'.");
     return null;
+  }
+
+  void mousePressed() {
   }
 }
 

@@ -56,8 +56,14 @@ class Level {
     }
   }
   
+  ArrayList<Actor> getActors(String name){
+  
+    return actorFactory.actors.get(name);
+  }
+  
   void mousePressed(){
   
     player.mousePressed();
+    for (Actor a : getActors("npc")) a.mousePressed();
   }
 }

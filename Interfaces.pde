@@ -3,12 +3,11 @@ interface Interacting {
   abstract void interact(Actor invoker);
 }
 
-interface Damaging {
-}
-
 interface ListDraw <T> { // <T> refers to generic object class
 
   default void listDraw(ArrayList<T> list) { // ie, can be used on any arraylist in theory
+  
+    if (list.size() <= 0) return;
 
     // but we check to make sure the arraylist is of a type that has a draw method
     if (list.get(0) instanceof Actor) {

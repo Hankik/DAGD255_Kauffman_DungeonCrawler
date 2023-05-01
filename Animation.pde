@@ -39,7 +39,7 @@ class Animation extends Component {
   }
 }
 
-/*               Do this in main .pde to most easily bring in sprites
+/*               Bring in image files this way in the main .pde to most easily instantiate sprites
 
 String[] nameRoboWalk = {"robot/walk0.png", "robot/walk1.png", "robot/walk2.png", "robot/walk3.png",
                      "robot/walk4.png", "robot/walk5.png", "robot/walk6.png", "robot/walk7.png"};

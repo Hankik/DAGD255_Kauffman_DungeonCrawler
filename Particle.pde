@@ -1,15 +1,18 @@
 class Particle {
 
   // fields
+  String name;
   PImage shape;
   Timer lifetime;
   float x;
   float y;
   float speed;
   PVector direction;
+  color fill = RED;
   
-  Particle(PImage sprite, float xPos, float yPos, float speed, PVector dir, float duration){
+  Particle(String name, PImage sprite, float xPos, float yPos, float speed, PVector dir, float duration){
   
+    this.name = name;
     shape = sprite;
     x = xPos;
     y = yPos;
@@ -37,7 +40,7 @@ class Particle {
   void draw(){
   
     pushMatrix();
-    fill(BLACK);
+    fill(fill);
     noStroke();
     translate(x,y);
     imageMode(CENTER);

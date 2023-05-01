@@ -7,19 +7,22 @@
  */
 import java.util.ArrayList;
 import java.util.HashMap;
+import processing.sound.*;
 
 //
 // declare global fields
 //
-final int LEVEL_AMOUNT = 1;
+final int LEVEL_AMOUNT = 6;
 int currentLevel = 0;
 Level[] levels = new Level[LEVEL_AMOUNT];
 
 float dt, prevTime, elapsed = 0;
 
 boolean isPaused = false;
+boolean leftMousePressed = false;
+boolean leftMousePressedLastFrame = false;
 
-MouseActor mouse;
+MouseActor globalMouse;
 
 // PImage sprites
 String[] nameRoboWalk = {"robot/walk0.png", "robot/walk1.png", "robot/walk2.png", "robot/walk3.png",
@@ -30,7 +33,10 @@ PImage[] zombieWalk = new PImage[nameZombieWalk.length];
 PImage[] zombieIdles = new PImage[2];
 PImage[] roboWalk = new PImage[nameRoboWalk.length];
 PImage[] roboIdles = new PImage[2];
-PImage imgActor, hookOpen, hookClosed, roboIdle, zombieIdle, imgFlower;
+PImage imgActor, hookOpen, hookClosed, roboIdle, zombieIdle, imgFlower, imgStairs, imgSmallStairs, imgFloor,
+        imgSmallFlower, imgPillar;
+SoundFile sGameOver, sNewGame, sPullFlower, sPullParent, sPullZombie, sSearching, sVictory1, sVictory2,
+          sKillZombie, sHurtFlower;
 
 
 // color constants
@@ -52,8 +58,43 @@ final color HOOK = #5393c5;
 void setup() {
 
   size(640, 640, P2D);
+  
+  // load sounds
+  sHurtFlower = new SoundFile(this, "hurtFlower.wav");
+  sHurtFlower.amp(.03);
+  sKillZombie = new SoundFile(this, "killZombie.wav");
+  sKillZombie.amp(.03);
+  sGameOver = new SoundFile(this, "gameOver.wav");
+  sGameOver.amp(.03);
+  sNewGame = new SoundFile(this, "newGame.wav");
+  sNewGame.amp(.03);
+  sPullFlower = new SoundFile(this, "pullFlower.wav");
+  sPullFlower.amp(.03);
+  sPullParent = new SoundFile(this, "pullParent.wav");
+  sPullParent.amp(.03);
+  sPullZombie = new SoundFile(this, "pullZombie.wav");
+  sPullZombie.amp(.03);
+  sSearching = new SoundFile(this, "searching.wav");
+  sSearching.play();
+  sSearching.amp(.03);
+  sVictory1 = new SoundFile(this, "victory1.wav");
+  sVictory1.amp(.03);
+  sVictory2 = new SoundFile(this, "victory2.wav");
+  sVictory2.amp(.03);
+  
+  println("Sound Files loaded successfully");
 
   // load images
+  imgPillar = loadImage("pillar.png");
+  imgPillar.resize(32, 40);
+  imgSmallFlower = loadImage("flower.png");
+  imgSmallFlower.resize(24, 24);
+  imgFloor = loadImage("stone.png");
+  imgFloor.resize(32, 32);
+  imgSmallStairs = loadImage("stairs.png");
+  imgSmallStairs.resize(24, 24);
+  imgStairs = loadImage("stairs.png");
+  imgStairs.resize(32, 32);
   imgFlower = loadImage("flower.png");
   imgFlower.resize(32,32);
   hookOpen = loadImage("hookOpen.png");
@@ -77,9 +118,11 @@ void setup() {
     roboWalk[i].resize(32, 40);
   }
 
-  println("Sprites loaded successfully");
+  println("Sprites loaded successfully\n");
   
-  mouse = new MouseActor();
+  
+  
+  globalMouse = new MouseActor();
 
   for (int i = 0; i < LEVEL_AMOUNT; i++) {
 
@@ -90,6 +133,11 @@ void setup() {
 void draw() {
   calcDeltaTime();
   background(BLACK);
+  
+  leftMousePressedLastFrame = leftMousePressed;
+  
+  pushMatrix();
+  translate(-levels[currentLevel].view.x, -levels[currentLevel].view.y);
 
 
   if (!isPaused) {
@@ -97,17 +145,23 @@ void draw() {
     levels[currentLevel].update();
   }
 
-
   levels[currentLevel].draw();
   
-  fill(WHITE);
-  text(elapsed, width/16, height/16);
 
   Keyboard.update();
+  
+  globalMouse.draw();
+  popMatrix();
+  
+  // UI STUFF AFTER HERE
+  textAlign(LEFT);
+  fill(WHITE);
+  textSize(12);
+  text(elapsed, width/16, height/16);
 }
 
 void keyPressed() {
-
+  
   Keyboard.handleKeyDown(keyCode);
   if (key == 'p') isPaused = !isPaused; // pause game if 'P' pressed
   if (!isPaused) levels[currentLevel].keyPressed();
@@ -116,6 +170,11 @@ void keyPressed() {
 void mousePressed(){
 
   if (!isPaused) levels[currentLevel].mousePressed();
+  if (mouseButton == LEFT) leftMousePressed = true; 
+}
+
+void mouseReleased(){
+  if (mouseButton == LEFT) leftMousePressed = false;
 }
 
 void keyReleased() {

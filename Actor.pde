@@ -3,6 +3,8 @@
 
 /// ACTOR /// blueprint for a game object
 
+// contains logic for AABB collision, Component updates and draws, and accessing and calling concerning actors
+
 class Actor {
 
   // AABB fields
@@ -14,9 +16,8 @@ class Actor {
   String name = "actor";
   boolean isDead = false;
   boolean hitboxVisible = false;
-
-  // component fields
   HashMap<String, Component> components = new HashMap();
+  ArrayList<String> concerns = new ArrayList();
 
   // draw fields
   color fill = WHITE;
@@ -29,10 +30,7 @@ class Actor {
 
   void update() {
 
-    //mouse.update();
-
-    //if (checkCollision(mouse)) hitboxVisible = true;
-    //else hitboxVisible = false;
+    handleAllConcerns();
 
     updateComponents();
 
@@ -56,7 +54,8 @@ class Actor {
       line(edgeR, edgeB, edgeL, edgeB);
       line(edgeL, edgeB, edgeL, edgeT);
       textAlign(CENTER);
-      //text("xPos: " + (int)x + " | yPos: " + (int)y, x, y + h*.75);
+      textSize(12);
+      //text("x: " + (int)x + " | y: " + (int)y, x, y + h*.75);
 
       noStroke();
     }
@@ -177,6 +176,30 @@ class Actor {
     return null;
   }
 
+  void handleAllConcerns() {
+
+    for (String actorType : concerns) {
+      if (!levels[currentLevel].actorFactory.actors.containsKey(actorType)) continue;
+      for (Actor a : levels[currentLevel].actorFactory.actors.get(actorType)) {
+
+        // check for collision
+        if (a.checkCollision(this)) {
+          handleConcernsCollision(a);
+        }
+
+        // do anything else
+        handleConcern(a);
+      }
+    }
+  }
+
+  // override this to handle collision
+  void handleConcernsCollision(Actor a) {
+  }
+
+  void handleConcern(Actor a) {
+  }
+
   void mousePressed() {
   }
 }
@@ -188,7 +211,7 @@ abstract class Component {
   // fields
   String name = "";
   Actor parent;
-  boolean visible = false;
+  boolean visible = true;
 
   abstract void update();
 
@@ -203,6 +226,7 @@ class MouseActor extends Actor {
     name = "mouseActor";
     x = 1000; // without changing x and y in constructor,
     y = 1000; // frame one had player and mouse at same location somehow
+    hitboxVisible = false;
 
     setSize(24, 24);
   }
@@ -210,7 +234,11 @@ class MouseActor extends Actor {
   void update() {
     super.update();
 
-    x = mouseX;
-    y = mouseY;
+    x = mouseX + levels[currentLevel].view.x;
+    y = mouseY + levels[currentLevel].view.y;
+  }
+
+  void draw() {
+    super.draw();
   }
 }

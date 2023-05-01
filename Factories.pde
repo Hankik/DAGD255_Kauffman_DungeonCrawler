@@ -1,3 +1,5 @@
+/* This .pde contains the ActorFactory and ParticleFactory class */
+
 class ActorFactory implements ListDraw { // see ListDraw's implementation details in 'Interfaces'.pde
 
   // A HashMap storing an arraylist for each type of actor
@@ -57,8 +59,32 @@ class ActorFactory implements ListDraw { // see ListDraw's implementation detail
       addActor(npc);
       return npc;
     }
+    
+    if (name.equalsIgnoreCase("TREE")) {
+    
+      Pillar tree = new Pillar(x, y, w, h);
+      addActor(tree);
+      return tree;
+    }
+    if (name.equalsIgnoreCase("EXIT")){
+    
+      Exit exit = new Exit(x, y, w, h);
+      addActor(exit);
+      return exit;
+    }
+    if (name.substring(0, 6).equalsIgnoreCase("BUTTON")){
+      Button b = new Button(x, y, w, h, name.substring(6));
+      addActor(b);
+      return b;
+    }
+    if (name.substring(0, 7).equalsIgnoreCase("TEXTBOX")){
+    
+      TextBox t = new TextBox(x, y, w, h, name.substring(7));
+      addActor(t);
+      return t;
+    }
 
-    println("ActorFactory create failed: could not find '" + name + "'");
+    println("ActorFactory create failed: could not find recipe for '" + name + "'");
     return null;
   }
 
@@ -66,6 +92,7 @@ class ActorFactory implements ListDraw { // see ListDraw's implementation detail
     try {
       // attempt to add element to arraylist located in hashmap using actors name as key
       actors.get(a.name).add(a);
+      if (a.name == "pillar") return;
       println("Actor " + a.name + " created successfully");
     }
     // if key is not found, error is caught and handled
@@ -95,6 +122,27 @@ class ParticleFactory implements ListDraw {
       listDraw( entry.getValue() );
     }
   }
+  
+  Particle create(String name, PImage sprite, float xPos, float yPos, float speed, PVector dir, float duration){
+  
+    if (name == null) return null;
+    
+    if (name.equalsIgnoreCase("BLOOD")){
+      Particle blood = new Particle(name, null, xPos, yPos, speed, dir, duration);
+      addParticle(blood);
+      return blood;
+    }
+    if (name.equalsIgnoreCase("BLUEBLOOD")){
+      Particle bb = new Particle(name, null, xPos, yPos, speed, dir, duration);
+      bb.fill = color(LIGHTBLUE);
+      addParticle(bb);
+      return bb;
+      
+    }
+    
+    println("ParticleFactory create failed: could not find recipe for '" + name + "'");
+    return null;
+  }
 
   void updateParticles(ArrayList<Particle> type) {
 
@@ -109,5 +157,21 @@ class ParticleFactory implements ListDraw {
 
       p.update();        // update particle
     }
+  }
+  
+  void addParticle(Particle p){
+    try {
+      // attempt to add element to arraylist located in hashmap using particles name as key
+      particles.get(p.name).add(p);
+      println("Particle " + p.name + " created sucessfully");
+    }
+    catch(Exception e) {
+      ArrayList<Particle> particleList = new ArrayList();
+      particles.put(p.name, particleList);
+      particleList.add(p);
+      println("ArrayList for " + p.name + "s created successfully");
+      println("Particle " + p.name + " created successfully");
+    }
+    
   }
 }

@@ -8,6 +8,7 @@ class Movement extends Component {
   boolean isMoving = false;
   PVector velocity = new PVector(1, 1);
   PVector direction = new PVector();
+  boolean enabled = true;
 
   Movement(Actor parent) {
 
@@ -31,6 +32,8 @@ class Movement extends Component {
   }
 
   void move(boolean moveLeft, boolean moveRight, boolean moveUp, boolean moveDown) {
+    
+    if (!enabled) return;
 
     isMoving = moveLeft||moveRight||moveUp||moveDown;
 

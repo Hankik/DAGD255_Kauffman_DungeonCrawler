@@ -1,11 +1,12 @@
 class Map {
 
   // fields
-  int[][] tiles = new int[20][20];
+  int[][] tiles = new int[200][200];
   int rowAmount = tiles.length;
   int colAmount = tiles[0].length;
   int cellWidth = 32;
   int cellHeight = 32;
+  float xOffset, yOffset = 0;
 
   Map(int w, int h) {
 
@@ -34,6 +35,7 @@ class Map {
         case 0:
           
           //rect(currentCol*cellWidth, currentRow*cellHeight, cellWidth, cellHeight);
+          image(imgFloor, currentCol * cellWidth + xOffset, currentRow*cellHeight + yOffset);
           break;
         }
       }
